@@ -18,30 +18,30 @@ A shadcn-compatible component registry themed with the [Cythera design system](h
 
 ### 1. Add the registry
 
-Point the shadcn CLI at the Cythera registry:
-
-```bash
-npx shadcn@latest add --registry https://herrhelms.github.io/cythera-components button
-```
-
-Or configure it as your default registry in `components.json`:
+Add the Cythera registry to your project's `components.json`:
 
 ```json
 {
   "registries": {
-    "cythera": {
-      "url": "https://herrhelms.github.io/cythera-components"
+    "@cythera": {
+      "url": "https://raw.githubusercontent.com/herrhelms/cythera-components/main/registry/{name}.json"
     }
   }
 }
 ```
 
-Then add components by name:
+Then pull components via the shadcn CLI:
 
 ```bash
-npx shadcn@latest add cythera/button
-npx shadcn@latest add cythera/dialog
-npx shadcn@latest add cythera/card
+npx shadcn@latest add @cythera/button
+npx shadcn@latest add @cythera/dialog
+npx shadcn@latest add @cythera/card
+```
+
+Or add a component directly without configuring the registry first:
+
+```bash
+npx shadcn@latest add https://raw.githubusercontent.com/herrhelms/cythera-components/main/registry/button.json
 ```
 
 ### 2. Install the theme
@@ -81,6 +81,28 @@ Add or remove the `dark` class on `<html>`:
 ```
 
 All tokens swap automatically -- no additional configuration needed.
+
+## Project Structure
+
+```
+cythera-components/
+├── registry.json              # Registry index (all items listed)
+├── registry/                  # Per-component registry-item JSON files
+│   ├── button.json            #   Declares dependencies, files, CSS vars
+│   ├── dialog.json
+│   └── ...                    #   (59 files — one per component)
+├── components/
+│   ├── ui/                    # Radix UI component source (default)
+│   └── ui-base/               # Base UI component source (alternative)
+├── lib/utils.ts               # cn() helper (clsx + tailwind-merge)
+├── hooks/use-mobile.ts        # Responsive viewport hook
+├── theme/
+│   ├── globals.css            # Cythera CSS variables (oklch, light + dark)
+│   └── tailwind.css           # Tailwind v4 @theme inline bridge
+└── package.json
+```
+
+The `registry/` folder contains one JSON manifest per component. These are the files the shadcn CLI fetches when you run `npx shadcn@latest add @cythera/button` -- each declares the component's npm dependencies, registry dependencies (other cythera components it needs), source file paths, and any CSS variables to inject.
 
 ## Components
 
