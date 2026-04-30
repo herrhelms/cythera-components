@@ -6,7 +6,7 @@
   "author": "herrhelms",
   "repository": {
     "type": "git",
-    "url": "https://github.com/herrhelms/cythera-design-system"
+    "url": "https://github.com/herrhelms/cythera-components"
   },
   "keywords": ["shadcn", "ui", "components", "design-system", "cythera"],
   "peerDependencies": {
